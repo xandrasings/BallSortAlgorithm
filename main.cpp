@@ -1,6 +1,9 @@
 #include <iostream>
+#include "Position.h"
 
 int main() {
-    std::cout << "splat";
+    Position startPosition(4);
+    startPosition.print();
+    
     return 0;
 }
