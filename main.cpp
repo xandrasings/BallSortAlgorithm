@@ -5,9 +5,18 @@
 int main() {
 
 	// LEVEL 1
+	// std::vector < std::vector < Color > > position {
+	// 	{ORANGE, ORANGE, ORANGE},
+	// 	{ORANGE}
+	// };
+
+	// LEVEL 1
 	std::vector < std::vector < Color > > position {
-		{ORANGE, ORANGE, ORANGE},
-		{ORANGE}
+		{ORANGE, BLUE, ORANGE},
+		{BLUE, BLUE, ORANGE},
+		{},
+		{ORANGE, BLUE},
+		{RED, RED, RED, RED}
 	};
 
 	// // LEVEL 2
@@ -18,6 +27,8 @@ int main() {
 
 	Move startPosition(position);
 	startPosition.print();
+
+	startPosition.explode();
 
 	return 0;
 }

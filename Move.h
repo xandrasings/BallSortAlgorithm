@@ -9,10 +9,17 @@ class Move {
 		int index;
 		int score;
 		Move* lastMove;
+		int source;
+		int destination;
 	public:
 		Move (std::vector < std::vector < Color > >);
+		Move (Move&, int, int);
 
+		void execute();
 		void setScore();
+
+		void explode(); // TODO this should eventually accept move list passed by reference which will be updated by the function.
+
 		void print ();
 };
 
