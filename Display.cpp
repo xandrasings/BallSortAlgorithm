@@ -58,15 +58,18 @@ void displayHorizontalWall(int vialCount) {
 	std::cout << "-+" << std::endl;
 }
 
-void displaySideWall() {
+void displayVailLabels(int vialCount) {
 	std::cout << "|";
+	for (int i = 0; i < vialCount; i++) {
+		std::cout << " " << (char)('a' + i);
+	}
+	std::cout << " |" << std::endl;
 }
 
 void displayBoard(const std::vector < std::vector < Color > > & position) {
 	displayHorizontalWall(position.size());
-
 	for(int j = 3; j >= 0; j--) {
-		displaySideWall();
+		std::cout << "|";
 		for (int i = 0; i < position.size(); i++) {
 			if (position[i].size() > j) {
 				displayBall(position[i][j]);
@@ -74,9 +77,8 @@ void displayBoard(const std::vector < std::vector < Color > > & position) {
 				displayBlank();
 			}
 		}
-		displaySideWall();
-		displaySideWall();
-		std::cout << std::endl;
+		std::cout << "||" << std::endl;
 	}
-	 displayHorizontalWall(position.size());
+	displayVailLabels(position.size());
+	displayHorizontalWall(position.size());
 }

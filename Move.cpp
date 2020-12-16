@@ -78,7 +78,7 @@ void Move::explode () {
 
 void Move::print () {
 	if (index > 0) {
-		std::cout << "ACTION: " << source << " -> " << destination << std::endl;
+		std::cout << "ACTION: " << (char)('a' + source) << " -> " << (char)('a' + destination) << std::endl;
 	}
 
 	if (score == 0) {
