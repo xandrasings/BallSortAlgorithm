@@ -36,6 +36,9 @@ void Move::setScore () {
 }
 
 void Move::print () {
+	if (score == 0) {
+		std::cout << "*** WINNER ***" << std::endl;
+	}
 	std::cout << "MOVE: " << index << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "POSITION: " << std::endl;
