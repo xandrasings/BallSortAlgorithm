@@ -9,7 +9,7 @@ Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	index = 0;
 	setScore();
 	lastMove = NULL;
-	exploded = FALSE;
+	exploded = false;
 }
 
 // generate a Move object from a previous move
@@ -18,7 +18,7 @@ Move::Move (Move& prev, int moveSource, int moveDestination) {
 	source = moveSource;
 	destination = moveDestination;
 	lastMove = &prev;
-	exploded = FALSE;
+	exploded = false;
 
    position = prev.position;
    execute();
@@ -76,7 +76,7 @@ void Move::explode () {
 			}
 		}
 	}
-	exploded = TRUE;
+	exploded = true;
 }
 
 void Move::print () {
@@ -89,7 +89,7 @@ void Move::print () {
 	}
 	std::cout << "MOVE: " << index << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
-	std::cout << "EXPLODED: " << score << std::endl;
+	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
 	displayBoard(position);
 }
