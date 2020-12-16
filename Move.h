@@ -6,8 +6,13 @@
 class Move {
 	protected:
 		std::vector < std::vector < Color > > position;
+		int index;
+		int score;
+		Move* lastMove;
 	public:
-		Move (int);
+		Move (std::vector < std::vector < Color > >);
+
+		void setScore();
 		void print ();
 };
 
