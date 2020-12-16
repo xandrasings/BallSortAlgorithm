@@ -1,9 +1,9 @@
 #include <iostream>
-#include "Position.h"
+#include "Move.h"
 
 int main() {
-    Position startPosition(4);
-    startPosition.print();
-    
-    return 0;
+	Move startPosition(4);
+	startPosition.print();
+
+	return 0;
 }
