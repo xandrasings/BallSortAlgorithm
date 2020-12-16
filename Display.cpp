@@ -3,6 +3,10 @@
 #include <iostream>
 #include <vector>
 
+char convertToVialLabel(int index) {
+	return (char)('a' + index);
+}
+
 void displayBlank() {
 	std::cout << "| ";
 };
@@ -61,7 +65,7 @@ void displayHorizontalWall(int vialCount) {
 void displayVailLabels(int vialCount) {
 	std::cout << "|";
 	for (int i = 0; i < vialCount; i++) {
-		std::cout << " " << (char)('a' + i);
+		std::cout << " " << convertToVialLabel(i);
 	}
 	std::cout << " |" << std::endl;
 }
