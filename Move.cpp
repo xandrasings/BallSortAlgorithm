@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 
+// generate a Move object from a starting position
 Move::Move (std::vector < std::vector < Color > > startingPosition) {
    position = startingPosition;
 	index = 0;
