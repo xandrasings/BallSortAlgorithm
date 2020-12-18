@@ -3,11 +3,12 @@
 #include <iostream>
 #include <vector>
 
-int currentKey = 0;
+int currentKey;
 
 // generate a Move object from a starting position
 Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	position = startingPosition;
+	currentKey = 0;
 	key = currentKey++;
 	step = 0;
 	setScore();
