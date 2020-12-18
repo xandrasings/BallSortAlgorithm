@@ -4,22 +4,28 @@
 #include <vector>
 
 class Move {
-	protected:
+public:
+	// protected:
 		std::vector < std::vector < Color > > position;
-		int index;
+		int key;
+		int step;
 		int score;
+
 		Move* lastMove;
+		std::vector < Move* > nextMoves;
+
 		int source;
 		int destination;
 		bool exploded;
 	public:
 		Move (std::vector < std::vector < Color > >);
-		Move (Move&, int, int);
+		Move (int, std::vector < std::vector < Color > >, int, int);
+
 
 		void execute();
 		void setScore();
 
-		void explode(); // TODO this should eventually accept move list passed by reference which will be updated by the function.
+		void explode ();
 
 		void print ();
 };

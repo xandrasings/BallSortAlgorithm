@@ -5,23 +5,27 @@
 
 // generate a Move object from a starting position
 Move::Move (std::vector < std::vector < Color > > startingPosition) {
-   position = startingPosition;
-	index = 0;
+	position = startingPosition;
+	key = 0;
+	step = 0;
 	setScore();
+
 	lastMove = NULL;
 	exploded = false;
 }
 
-// generate a Move object from a previous move
-Move::Move (Move& prev, int moveSource, int moveDestination) {
-	index = prev.index + 1;
-	source = moveSource;
-	destination = moveDestination;
-	lastMove = &prev;
+// generate a Move object with manual data
+Move::Move (int prevStep, std::vector < std::vector < Color > > prevPosition, int moveSource, int moveDestination) {
+	key = 0; // TODO 
+	step = prevStep + 1;
+
+	lastMove = NULL; // TODO
 	exploded = false;
 
-   position = prev.position;
-   execute();
+	position = prevPosition;
+	source = moveSource;
+	destination = moveDestination;
+	execute();
 }
 
 void Move::setScore () {
@@ -52,9 +56,9 @@ void Move::setScore () {
 }
 
 void Move::execute () {
-   position[destination].push_back(position[source].back());
-   position[source].pop_back();
-	setScore(); // score should always be reset after move is executed
+	position[destination].push_back(position[source].back());
+	position[source].pop_back();
+	setScore(); // score should always be recalculated after move is executed
 }
 
 void Move::explode () {
@@ -63,7 +67,6 @@ void Move::explode () {
 		// loop through destination vials
 		for (int destination_it = 0; destination_it < position.size(); destination_it++) {
 			// skip movements to self
-
 			if (
 				source_it != destination_it && // skip movements to self
 				position[source_it].size() > 0 && ( // skip movements from nothing
@@ -71,8 +74,7 @@ void Move::explode () {
 						position[destination_it].size() < 4 && // skip movements to full
 						position[destination_it].back() == position[source_it].back() // skip movements to incorrect color
 			))) {
-				Move nextMove = Move(*this, source_it, destination_it);
-				nextMove.print();
+				nextMoves.push_back(new Move(step, position, source_it, destination_it));
 			}
 		}
 	}
@@ -80,14 +82,14 @@ void Move::explode () {
 }
 
 void Move::print () {
-	if (index > 0) {
+	if (step > 0) {
 		std::cout << "ACTION: " << convertToVialLabel(source) << " -> " << convertToVialLabel(destination) << std::endl;
 	}
 
 	if (score == 0) {
 		std::cout << "*** WINNER ***" << std::endl;
 	}
-	std::cout << "MOVE: " << index << std::endl;
+	std::cout << "MOVE: " << step << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;

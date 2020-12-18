@@ -25,10 +25,17 @@ int main() {
 	// 	{ORANGE, BLUE, ORANGE, BLUE}
 	// };
 
-	Move startPosition(position);
-	startPosition.print();
 
+	Move startPosition = Move(position);
 	startPosition.explode();
+
+	startPosition.print();
+	std::cout << startPosition.nextMoves.size() << std::endl;
+
+	for (int i = 0; i < startPosition.nextMoves.size(); i++) {
+		startPosition.nextMoves[i]->print();
+	}
+
 
 	return 0;
 }
