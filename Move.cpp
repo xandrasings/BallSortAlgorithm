@@ -14,15 +14,15 @@ Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	exploded = false;
 }
 
-// generate a Move object with manual data
-Move::Move (int prevStep, std::vector < std::vector < Color > > prevPosition, int moveSource, int moveDestination) {
+// generate a Move based on last move and execution coordinates
+Move::Move (Move *prev, int moveSource, int moveDestination) {
 	key = 0; // TODO 
-	step = prevStep + 1;
+	step = prev->step + 1;
 
-	lastMove = NULL; // TODO
+	lastMove = prev;
 	exploded = false;
 
-	position = prevPosition;
+	position = prev->position;
 	source = moveSource;
 	destination = moveDestination;
 	execute();
@@ -74,7 +74,7 @@ void Move::explode () {
 						position[destination_it].size() < 4 && // skip movements to full
 						position[destination_it].back() == position[source_it].back() // skip movements to incorrect color
 			))) {
-				nextMoves.push_back(new Move(step, position, source_it, destination_it));
+				nextMoves.push_back(new Move(this, source_it, destination_it));
 			}
 		}
 	}

@@ -25,7 +25,6 @@ int main() {
 	// 	{ORANGE, BLUE, ORANGE, BLUE}
 	// };
 
-
 	Move startPosition = Move(position);
 	startPosition.explode();
 
@@ -35,7 +34,6 @@ int main() {
 	for (int i = 0; i < startPosition.nextMoves.size(); i++) {
 		startPosition.nextMoves[i]->print();
 	}
-
 
 	return 0;
 }

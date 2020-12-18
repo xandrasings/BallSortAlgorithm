@@ -19,7 +19,7 @@ public:
 		bool exploded;
 	public:
 		Move (std::vector < std::vector < Color > >);
-		Move (int, std::vector < std::vector < Color > >, int, int);
+		Move (Move*, int, int);
 
 
 		void execute();
