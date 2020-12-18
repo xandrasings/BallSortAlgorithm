@@ -14,6 +14,7 @@ Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	setScore();
 
 	lastMove = NULL;
+	exploded = false;
 }
 
 // generate a Move based on last move and execution coordinates
@@ -22,6 +23,7 @@ Move::Move (Move *prev, int moveSource, int moveDestination) {
 	step = prev->step + 1;
 
 	lastMove = prev;
+	exploded = false;
 
 	position = prev->position;
 	source = moveSource;
@@ -104,6 +106,7 @@ Move* Move::explode () {
 			}
 		}
 	}
+	exploded = true;
 	return NULL; // if no winner found on this depth, return NULL
 }
 
@@ -119,6 +122,7 @@ void Move::print () {
 	std::cout << "KEY: " << key << std::endl;
 	std::cout << "LAST MOVE KEY: " << lastMove->key << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
+	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
 	displayBoard(position);
 	std::cout << std::endl;

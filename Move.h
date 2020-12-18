@@ -13,6 +13,7 @@ public:
 
 		Move* lastMove;
 		std::vector < Move* > nextMoves;
+		bool exploded;
 
 		int source;
 		int destination;
