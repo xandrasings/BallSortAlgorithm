@@ -16,27 +16,44 @@ int main() {
 	// 	{ORANGE, BLUE, ORANGE, BLUE}
 	// };
 
+	// LEVEL 3
 	std::vector < std::vector < Color > > position {
-		{ORANGE, BLUE, ORANGE},
-		{BLUE, BLUE, ORANGE},
+		{BLUE, ORANGE, RED, BLUE},
+		{ORANGE, ORANGE, RED, BLUE},
+		{RED, BLUE, ORANGE, RED},
 		{},
-		{ORANGE, BLUE},
-		{RED, RED, RED, RED}
+		{}
 	};
 
 	Move startPosition = Move(position);
-	Move* winningPosition = startPosition.explode();
+	// Move* winningPosition = startPosition.explode();
+	Move* winningPosition = NULL;
 
-	startPosition.print();
-	std::cout << startPosition.nextMoves.size() << std::endl;
+	// for (int timer = 0; timer < 4; timer++) {
+	// 	startPosition.explode();
+	// 	for (int i = 0; i < startPosition.nextMoves.size(); i++) {
+	// 		startPosition.nextMoves[i]->explode();
+	// 	}
+	// }
+	winningPosition = startPosition.explode();
+	winningPosition = startPosition.explode();
+	winningPosition = startPosition.explode();
+	winningPosition = startPosition.explode();
+	winningPosition = startPosition.explode();
 
-	for (int i = 0; i < startPosition.nextMoves.size(); i++) {
-		startPosition.nextMoves[i]->print();
-	}
+	// startPosition.print();
+	// std::cout << startPosition.nextMoves.size() << std::endl;
+
+	// for (int i = 0; i < startPosition.nextMoves.size(); i++) {
+	// 	startPosition.nextMoves[i]->print();
+	// }
 
 	if (winningPosition != NULL) {
 		std::cout << "winning position: " << std::endl;
 		winningPosition->print();
+	} else {
+		std::cout << "winning position not found!!!" << std::endl;
+
 	}
 
 	return 0;

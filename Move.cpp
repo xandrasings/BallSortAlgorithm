@@ -64,30 +64,43 @@ void Move::execute () {
 }
 
 Move* Move::explode () {
-	// loop through from source vials
-	for (int source_it = 0; source_it < position.size(); source_it++) {
-		// loop through destination vials
-		for (int destination_it = 0; destination_it < position.size(); destination_it++) {
-			// skip movements to self
-			if (
-				source_it != destination_it && // skip movements to self
-				position[source_it].size() > 0 && ( // skip movements from nothing
-					position[destination_it].size() == 0 || ( // allow movement to empty vial
-						position[destination_it].size() < 4 && // skip movements to full
-						position[destination_it].back() == position[source_it].back() // skip movements to incorrect color
-			))) {
-				Move* nextMove = new Move(this, source_it, destination_it);
-				nextMoves.push_back(nextMove);
+	// explode this move if it hasn't been
+	if (exploded == false) {
+		// loop through from source vials
+		for (int source_it = 0; source_it < position.size(); source_it++) {
+			// loop through destination vials
+			for (int destination_it = 0; destination_it < position.size(); destination_it++) {
+				// skip movements to self
+				if (
+					source_it != destination_it && // skip movements to self
+					position[source_it].size() > 0 && ( // skip movements from nothing
+						position[destination_it].size() == 0 || ( // allow movement to empty vial
+							position[destination_it].size() < 4 && // skip movements to full
+							position[destination_it].back() == position[source_it].back() // skip movements to incorrect color
+				))) {
+					Move* nextMove = new Move(this, source_it, destination_it);
+					nextMoves.push_back(nextMove);
 
-				if (nextMove->score == 0) {
-					std::cout << "FOUND A WINNER" << std::endl;
-					return nextMove;
+					// TODO remove
+					std::cout << "ADDED A NEW MOVE" << std::endl;
+					nextMove->print();
+
+					if (nextMove->score == 0) {
+						return nextMove;
+					}
 				}
 			}
 		}
+		exploded = true;
+	} else { // otherwise check the next level of moves
+		for (int i = 0; i < nextMoves.size(); i++) {
+			Move* winningMove = nextMoves[i]->explode();
+			if (winningMove != NULL) {
+				return winningMove;
+			}
+		}
 	}
-	exploded = true;
-	return NULL;
+	return NULL; // if no winner found on this depth, return NULL
 }
 
 void Move::print () {
@@ -100,8 +113,11 @@ void Move::print () {
 	}
 	std::cout << "MOVE: " << step << std::endl;
 	std::cout << "KEY: " << key << std::endl;
+	std::cout << "LAST MOVE KEY: " << lastMove->key << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
 	displayBoard(position);
+	std::cout << std::endl;
+	std::cout << std::endl;
 }
