@@ -21,11 +21,10 @@ public:
 		Move (std::vector < std::vector < Color > >);
 		Move (Move*, int, int);
 
-
 		void execute();
 		void setScore();
 
-		void explode ();
+		Move* explode ();
 
 		void print ();
 };

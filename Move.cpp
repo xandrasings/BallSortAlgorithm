@@ -3,10 +3,12 @@
 #include <iostream>
 #include <vector>
 
+int currentKey = 0;
+
 // generate a Move object from a starting position
 Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	position = startingPosition;
-	key = 0;
+	key = currentKey++;
 	step = 0;
 	setScore();
 
@@ -16,7 +18,7 @@ Move::Move (std::vector < std::vector < Color > > startingPosition) {
 
 // generate a Move based on last move and execution coordinates
 Move::Move (Move *prev, int moveSource, int moveDestination) {
-	key = 0; // TODO 
+	key = currentKey++;
 	step = prev->step + 1;
 
 	lastMove = prev;
@@ -61,7 +63,7 @@ void Move::execute () {
 	setScore(); // score should always be recalculated after move is executed
 }
 
-void Move::explode () {
+Move* Move::explode () {
 	// loop through from source vials
 	for (int source_it = 0; source_it < position.size(); source_it++) {
 		// loop through destination vials
@@ -74,11 +76,18 @@ void Move::explode () {
 						position[destination_it].size() < 4 && // skip movements to full
 						position[destination_it].back() == position[source_it].back() // skip movements to incorrect color
 			))) {
-				nextMoves.push_back(new Move(this, source_it, destination_it));
+				Move* nextMove = new Move(this, source_it, destination_it);
+				nextMoves.push_back(nextMove);
+
+				if (nextMove->score == 0) {
+					std::cout << "FOUND A WINNER" << std::endl;
+					return nextMove;
+				}
 			}
 		}
 	}
 	exploded = true;
+	return NULL;
 }
 
 void Move::print () {
@@ -90,6 +99,7 @@ void Move::print () {
 		std::cout << "*** WINNER ***" << std::endl;
 	}
 	std::cout << "MOVE: " << step << std::endl;
+	std::cout << "KEY: " << key << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
