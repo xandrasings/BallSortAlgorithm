@@ -19,6 +19,7 @@ public:
 	public:
 		Move (std::vector < std::vector < Color > >);
 		Move (Move*, int, int);
+		~Move();
 
 		void execute();
 		void setScore();

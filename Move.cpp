@@ -29,6 +29,12 @@ Move::Move (Move *prev, int moveSource, int moveDestination) {
 	execute();
 }
 
+Move::~Move() {
+    for(int i = 0; i < nextMoves.size(); i++)
+        delete nextMoves[i];
+    return;
+}
+
 void Move::setScore () {
 	score = 0;
 
