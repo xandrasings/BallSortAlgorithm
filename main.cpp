@@ -26,20 +26,19 @@ int main() {
 	};
 
 	Move startPosition = Move(position);
-	// Move* winningPosition = startPosition.explode();
 	Move* winningPosition = NULL;
 
-	// for (int timer = 0; timer < 4; timer++) {
-	// 	startPosition.explode();
-	// 	for (int i = 0; i < startPosition.nextMoves.size(); i++) {
-	// 		startPosition.nextMoves[i]->explode();
-	// 	}
-	// }
-	winningPosition = startPosition.explode();
-	winningPosition = startPosition.explode();
-	winningPosition = startPosition.explode();
-	winningPosition = startPosition.explode();
-	winningPosition = startPosition.explode();
+	for (int timer = 0; timer < 2; timer++) {
+		winningPosition = startPosition.explode();
+
+		if (winningPosition != NULL) {
+			std::cout << "winning position: " << std::endl;
+			winningPosition->print();
+			break;
+		} else {
+			std::cout << "winning position not found!!!" << std::endl;
+		}
+	}
 
 	// startPosition.print();
 	// std::cout << startPosition.nextMoves.size() << std::endl;
@@ -47,14 +46,6 @@ int main() {
 	// for (int i = 0; i < startPosition.nextMoves.size(); i++) {
 	// 	startPosition.nextMoves[i]->print();
 	// }
-
-	if (winningPosition != NULL) {
-		std::cout << "winning position: " << std::endl;
-		winningPosition->print();
-	} else {
-		std::cout << "winning position not found!!!" << std::endl;
-
-	}
 
 	return 0;
 }
