@@ -16,7 +16,6 @@ public:
 
 		int source;
 		int destination;
-		bool exploded;
 	public:
 		Move (std::vector < std::vector < Color > >);
 		Move (Move*, int, int);

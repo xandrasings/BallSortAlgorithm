@@ -13,7 +13,6 @@ Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	setScore();
 
 	lastMove = NULL;
-	exploded = false;
 }
 
 // generate a Move based on last move and execution coordinates
@@ -22,7 +21,6 @@ Move::Move (Move *prev, int moveSource, int moveDestination) {
 	step = prev->step + 1;
 
 	lastMove = prev;
-	exploded = false;
 
 	position = prev->position;
 	source = moveSource;
@@ -64,8 +62,8 @@ void Move::execute () {
 }
 
 Move* Move::explode () {
-	// explode this move if it hasn't been
-	if (exploded == false) {
+	// explode this move if it hasn't been done yet
+	if (nextMoves.size() == 0) {
 		// loop through from source vials
 		for (int source_it = 0; source_it < position.size(); source_it++) {
 			// loop through destination vials
@@ -91,7 +89,6 @@ Move* Move::explode () {
 				}
 			}
 		}
-		exploded = true;
 	} else { // otherwise check the next level of moves
 		for (int i = 0; i < nextMoves.size(); i++) {
 			Move* winningMove = nextMoves[i]->explode();
@@ -115,7 +112,6 @@ void Move::print () {
 	std::cout << "KEY: " << key << std::endl;
 	std::cout << "LAST MOVE KEY: " << lastMove->key << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
-	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
 	displayBoard(position);
 	std::cout << std::endl;
