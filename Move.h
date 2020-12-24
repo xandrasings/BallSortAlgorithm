@@ -14,15 +14,16 @@ public:
 		Move* lastMove;
 		std::vector < Move* > nextMoves;
 		bool exploded;
-
-		int source;
-		int destination;
 	public:
 		Move (std::vector < std::vector < Color > >);
-		Move (Move*, int, int);
+		Move (Move*);
 		~Move();
 
-		void execute();
+		bool compare(Move*);
+		bool compare(std::vector < std::vector < Color > >&);
+
+		void execute(int, int);
+		void revert(int, int);
 		void setScore();
 
 		Move* explode ();

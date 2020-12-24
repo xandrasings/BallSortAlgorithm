@@ -1,6 +1,7 @@
 #include "Move.h"
 #include "Display.h"
 #include <iostream>
+#include <numeric>
 #include <vector>
 
 int currentKey;
@@ -17,24 +18,41 @@ Move::Move (std::vector < std::vector < Color > > startingPosition) {
 	exploded = false;
 }
 
-// generate a Move based on last move and execution coordinates
-Move::Move (Move *prev, int moveSource, int moveDestination) {
+// generate a Move based on last move with updated position
+Move::Move (Move *prev) {
 	key = currentKey++;
 	step = prev->step + 1;
 
 	lastMove = prev;
+	prev->nextMoves.push_back(this);
 	exploded = false;
 
 	position = prev->position;
-	source = moveSource;
-	destination = moveDestination;
-	execute();
+	setScore();
 }
 
 Move::~Move() {
     for(int i = 0; i < nextMoves.size(); i++)
         delete nextMoves[i];
     return;
+}
+
+bool Move::compare (std::vector < std::vector < Color > >& newPosition) {
+	std::vector<int> indicesToCompare(newPosition.size()) ;
+	std::iota (std::begin(indicesToCompare), std::end(indicesToCompare), 0);
+
+	for (int i = position.size() - 1; i >= 0; i--) {
+		for (int j = 0; j < indicesToCompare.size(); j++) {
+			if (position[i] == newPosition[indicesToCompare[j]]) {
+				indicesToCompare.erase(indicesToCompare.begin() + j);
+				break;
+			}
+		}
+		if (indicesToCompare.size() != i) {
+			return false;
+		}
+	}
+	return true;
 }
 
 void Move::setScore () {
@@ -64,10 +82,14 @@ void Move::setScore () {
 	score += ((4 * position.size() - volume) / 4) - empties; // add a point for extra vials used
 }
 
-void Move::execute () {
+void Move::execute (int source, int destination) {
 	position[destination].push_back(position[source].back());
 	position[source].pop_back();
-	setScore(); // score should always be recalculated after move is executed
+}
+
+void Move::revert (int source, int destination) {
+	position[source].push_back(position[destination].back());
+	position[destination].pop_back();
 }
 
 Move* Move::explode () {
@@ -85,8 +107,14 @@ Move* Move::explode () {
 							position[destination_it].size() < 4 && // skip movements to full
 							position[destination_it].back() == position[source_it].back() // skip movements to incorrect color
 				))) {
-					Move* nextMove = new Move(this, source_it, destination_it);
-					nextMoves.push_back(nextMove);
+					execute(source_it, destination_it);
+
+					for (int i = 0; i < nextMoves.size(); i++) {
+						std::cout << nextMoves[i]->compare(position) << " - compared " << std::endl;
+					}
+
+					Move* nextMove = new Move(this);
+					revert(source_it, destination_it);
 
 					// TODO remove
 					std::cout << "ADDED A NEW MOVE" << std::endl;
@@ -111,16 +139,14 @@ Move* Move::explode () {
 }
 
 void Move::print () {
-	if (step > 0) {
-		std::cout << "ACTION: " << convertToVialLabel(source) << " -> " << convertToVialLabel(destination) << std::endl;
-	}
-
 	if (score == 0) {
 		std::cout << "*** WINNER ***" << std::endl;
 	}
 	std::cout << "MOVE: " << step << std::endl;
 	std::cout << "KEY: " << key << std::endl;
-	std::cout << "LAST MOVE KEY: " << lastMove->key << std::endl;
+	if (step != 0) {
+		std::cout << "LAST MOVE KEY: " << lastMove->key << std::endl;
+	}
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;

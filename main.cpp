@@ -16,10 +16,19 @@ int main() {
 	// 	{ORANGE, BLUE, ORANGE, BLUE}
 	// };
 
+	// // LEVEL 3
+	// std::vector < std::vector < Color > > position {
+	// 	{BLUE, ORANGE, RED, BLUE},
+	// 	{ORANGE, ORANGE, RED, BLUE},
+	// 	{RED, BLUE, ORANGE, RED},
+	// 	{},
+	// 	{}
+	// };
+
 	// LEVEL 3
 	std::vector < std::vector < Color > > position {
-		{BLUE, ORANGE, RED, BLUE},
-		{ORANGE, ORANGE, RED, BLUE},
+		{BLUE, ORANGE, RED, RED},
+		{ORANGE, ORANGE, BLUE, BLUE},
 		{RED, BLUE, ORANGE, RED},
 		{},
 		{}
@@ -28,7 +37,7 @@ int main() {
 	Move startPosition = Move(position);
 	Move* winningPosition = NULL;
 
-	for (int timer = 0; timer < 2; timer++) {
+	for (int timer = 0; timer < 1; timer++) {
 		winningPosition = startPosition.explode();
 
 		if (winningPosition != NULL) {
@@ -39,6 +48,16 @@ int main() {
 			std::cout << "winning position not found!!!" << std::endl;
 		}
 	}
+
+
+	// std::cout << "-----------------" << std::endl;
+	// std::cout << "-----------------" << std::endl;
+	// std::cout << "-----------------" << std::endl;
+	// startPosition.print();
+	// std::cout << "-----------------" << std::endl;
+	// startPosition.nextMoves[0]->nextMoves[6]->print();
+
+	// startPosition.compare(startPosition.nextMoves[0]->nextMoves[6]);
 
 	// startPosition.print();
 	// std::cout << startPosition.nextMoves.size() << std::endl;
