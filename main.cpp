@@ -48,23 +48,41 @@ int main() {
 	// 	{}
 	// };
 
-	// LEVEL 1341
+	// LEVEL 1337
 	std::vector < std::vector < Color > > position {
-		{CYAN, LIME, FOREST, GRAY},
-		{ORANGE, FOREST, YELLOW, BLUE},
-		{GREEN, BLUE, PINK, YELLOW},
-		{ORANGE, FOREST, GRAY, RED},
-		{PINK, GREEN, BROWN, BLUE},
-		{ORANGE, RED, BROWN, CYAN},
-		{BROWN, LIME, RED, ORANGE},
-		{BLUE, GRAY, FOREST, PURPLE},
-		{PURPLE, CYAN, GREEN, GREEN},
-		{PURPLE, PINK, LIME, CYAN},
-		{RED, YELLOW, PINK, PURPLE},
-		{BROWN, YELLOW, LIME, GRAY},
+		{PURPLE, CYAN, BLUE, LIME},
+		{PURPLE, GRAY, FOREST, PINK},
+		{BROWN, GRAY, ORANGE, GREEN},
+		{RED, FOREST, GREEN, CYAN},
+		{RED, ORANGE, BLUE, BLUE},
+		{PINK, GRAY, YELLOW, BROWN},
+		{PURPLE, LIME, CYAN, GREEN},
+		{PINK, RED, GRAY, FOREST},
+		{ORANGE, YELLOW, BLUE, PINK},
+		{RED, BROWN, FOREST, LIME},
+		{LIME, ORANGE, CYAN, YELLOW},
+		{GREEN, BROWN, PURPLE, YELLOW},
 		{},
 		{}
 	};
+
+	// // LEVEL 1341
+	// std::vector < std::vector < Color > > position {
+	// 	{CYAN, LIME, FOREST, GRAY},
+	// 	{ORANGE, FOREST, YELLOW, BLUE},
+	// 	{GREEN, BLUE, PINK, YELLOW},
+	// 	{ORANGE, FOREST, GRAY, RED},
+	// 	{PINK, GREEN, BROWN, BLUE},
+	// 	{ORANGE, RED, BROWN, CYAN},
+	// 	{BROWN, LIME, RED, ORANGE},
+	// 	{BLUE, GRAY, FOREST, PURPLE},
+	// 	{PURPLE, CYAN, GREEN, GREEN},
+	// 	{PURPLE, PINK, LIME, CYAN},
+	// 	{RED, YELLOW, PINK, PURPLE},
+	// 	{BROWN, YELLOW, LIME, GRAY},
+	// 	{},
+	// 	{}
+	// };
 
 	Move startPosition = Move(position);
 	Move* finalPosition = startPosition.explode();
