@@ -67,9 +67,13 @@ int main() {
 	};
 
 	Move startPosition = Move(position);
-	Move* winningPosition = startPosition.explode();
+	Move* finalPosition = startPosition.explode();
 	// startPosition.printExplosion();
-	winningPosition->printPath();
+	if (finalPosition == NULL) {
+		std::cout << "no solution found" << std::endl;
+	} else {
+		finalPosition->printPath();
+	}
 
 	return 0;
 }

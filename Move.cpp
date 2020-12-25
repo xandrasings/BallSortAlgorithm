@@ -146,16 +146,16 @@ void Move::revert (int source, int destination) {
 }
 
 Move* Move::explode () {
-	if (key > 1000) { // TODO evaluate program limits
-		return NULL;
-	}
+	Move* finalPosition = explode(scanForMinimum());
 
-	Move* winningPosition = explode(scanForMinimum());
-
-	if (winningPosition == NULL) {
+	if (finalPosition == NULL) {
 		return explode();
 	} else {
-		return winningPosition;
+		if (finalPosition->score == 0) {
+			return finalPosition;
+		} else {
+			return NULL;
+		}
 	}
 }
 
@@ -181,7 +181,7 @@ Move* Move::explode (int minimumScore) {
 					if (!scanForMatches()) {
 						Move* nextMove = new Move(this);
 
-						if (nextMove->score == 0) {
+						if (nextMove->score == 0 || nextMove->key > 5000) {
 							revert(source_it, destination_it);
 							return nextMove;
 						}
