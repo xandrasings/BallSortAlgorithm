@@ -7,51 +7,51 @@ char convertToVialLabel(int index) {
 	return (char)('a' + index);
 }
 
-void displayBlank() {
-	std::cout << "| ";
+void displayBlank(bool ghost = false) {
+	if (ghost) {
+		std::cout << "|\033[100m \033[49m";
+	} else {
+		std::cout << "| ";
+	}
 };
 
-void displayBall(Color color) { // TODO reference map of Color -> struct
-	std::cout << "|\033[1m\033[";
+std::string getColorContent(Color color) {
 	switch(color) {
 		case ORANGE:
-			std::cout << "31" << "m" << "O";
-			break;
+			return "31mO";
 		case BLUE:
-			std::cout << "34" << "m" << "B";
-			break;
+			return "34mB";
 		case RED:
-			std::cout << "91" << "m" << "R";
-			break;
+			return "91mR";
 		case PINK:
-			std::cout << "95" << "m" << "P";
-			break;
+			return "95mP";
 		case LIME:
-			std::cout << "92" << "m" << "L";
-			break;
+			return "92mL";
 		case GRAY:
-			std::cout << "37" << "m" << "A";
-			break;
+			return "37mA";
 		case CYAN:
-			std::cout << "96" << "m" << "C";
-			break;
+			return "96mC";
 		case GREEN:
-			std::cout << "33" << "m" << "G";
-			break;
+			return "33mG";
 		case PURPLE:
-			std::cout << "94" << "m" << "U";
-			break;
+			return "94mU";
 		case FOREST:
-			std::cout << "32" << "m" << "F";
-			break;
+			return "32mF";
 		case BROWN:
-			std::cout << "90" << "m" << "W";
-			break;
+			return "90mW";
 		case YELLOW:
-			std::cout << "93" << "m" << "Y";
-			break;
+			return "93mY";
+		default:
+			return "30m?";
 	}
-	std::cout << "\033[0m";
+}
+
+void displayBall(Color color) { // TODO reference map of Color -> struct
+	std::cout << "|\033[1m\033[" << getColorContent(color) << "\033[0m";
+};
+
+void displayFlashyBall(Color color) { // TODO reference map of Color -> struct
+	std::cout << "|\033[5m\033[1m\033[" << getColorContent(color) << "\033[0m";
 };
 
 void displayHorizontalWall(int vialCount) {
@@ -79,6 +79,28 @@ void displayBoard(const std::vector < std::vector < Color > > & position) {
 				displayBall(position[i][j]);
 			} else {
 				displayBlank();
+			}
+		}
+		std::cout << "||" << std::endl;
+	}
+	displayVailLabels(position.size());
+	displayHorizontalWall(position.size());
+}
+
+void displayFlashyBoard(const std::vector < std::vector < Color > > & position, const std::vector < std::vector < Color > > & nextPosition) {
+	std::cout << position[0].size() << nextPosition[0].size() << std::endl;
+	displayHorizontalWall(position.size());
+	for(int j = 3; j >= 0; j--) {
+		std::cout << "|";
+		for (int i = 0; i < position.size(); i++) {
+			if (position[i].size() > j) {
+				if (nextPosition[i].size() < position[i].size() && nextPosition[i].size() == j) {
+					displayFlashyBall(position[i][j]);
+				} else {
+					displayBall(position[i][j]);
+				}
+			} else {
+				displayBlank(nextPosition[i].size() > position[i].size() && position[i].size() == j);
 			}
 		}
 		std::cout << "||" << std::endl;

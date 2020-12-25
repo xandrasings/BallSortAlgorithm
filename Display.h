@@ -3,6 +3,7 @@
 #include "Color.h"
 
 char convertToVialLabel(int index);
-void displayBoard(const std::vector < std::vector < Color > > & position);
+void displayBoard(const std::vector < std::vector < Color > > &);
+void displayFlashyBoard(const std::vector < std::vector < Color > > &, const std::vector < std::vector < Color > > &);
 
 #endif

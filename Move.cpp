@@ -173,14 +173,13 @@ Move* Move::explode () {
 }
 
 void Move::populatePath(std::stack<Move*>& moves) {
-	std::cout << "populatePath: " << std::endl;
 	moves.push(this);
 	if (lastMove != NULL) {
 		lastMove->populatePath(moves);
 	}
 }
 
-void Move::print (Move* nextMove) {
+void Move::print (Move* nextMove) { // defaulted to NULL
 	if (score == 0) {
 		std::cout << "*** WINNER ***" << std::endl;
 	}
@@ -192,7 +191,11 @@ void Move::print (Move* nextMove) {
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
-	displayBoard(position);
+	if (nextMove == NULL) {
+		displayBoard(position);
+	} else {
+		displayFlashyBoard(position, nextMove->position);
+	}
 	std::cout << std::endl;
 	std::cout << std::endl;
 }
