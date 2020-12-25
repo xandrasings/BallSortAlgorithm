@@ -39,6 +39,7 @@ Move::~Move() {
 }
 
 // TODO add logic for when more efficient path found
+// TODO move 5 of 1337 is a good example of this
 bool Move::compare (std::vector < std::vector < Color > >& newPosition) {
 	std::vector<int> indicesToCompare(newPosition.size()) ;
 	std::iota (std::begin(indicesToCompare), std::end(indicesToCompare), 0);
