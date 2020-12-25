@@ -2,6 +2,7 @@
 #include "Display.h"
 #include <iostream>
 #include <numeric>
+#include <queue>
 #include <vector>
 
 int currentKey;
@@ -55,6 +56,41 @@ bool Move::compare (std::vector < std::vector < Color > >& newPosition) {
 	return true;
 }
 
+bool Move::scanForMatches () {
+	std::queue<Move*> scanQueue;
+	std::vector<int> queued = {key};
+
+	for (int i = 0; i < nextMoves.size(); i++) {
+		scanQueue.push(nextMoves[i]);
+		queued.push_back(nextMoves[i]->key);
+	}
+	if (lastMove != NULL) {
+		scanQueue.push(lastMove);
+		queued.push_back(lastMove->key);
+	}
+
+	while (!scanQueue.empty()) {
+		if (scanQueue.front()->compare(position)) {
+			return true;
+		} else {
+			for (int i = 0; i < scanQueue.front()->nextMoves.size(); i++) {
+				if (std::find(queued.begin(), queued.end(), scanQueue.front()->nextMoves[i]->key) == queued.end()) {
+					scanQueue.push(scanQueue.front()->nextMoves[i]);
+					queued.push_back(scanQueue.front()->nextMoves[i]->key);
+
+				}
+			}
+
+			if (scanQueue.front()->lastMove != NULL && std::find(queued.begin(), queued.end(), scanQueue.front()->lastMove->key) == queued.end()) {
+				scanQueue.push(scanQueue.front()->lastMove);
+				queued.push_back(scanQueue.front()->lastMove->key);
+			}
+		}
+		scanQueue.pop();
+	}
+	return false;
+}
+
 void Move::setScore () {
 	score = 0;
 
@@ -94,7 +130,7 @@ void Move::revert (int source, int destination) {
 
 Move* Move::explode () {
 	// explode this move if it hasn't been done yet
-	if (nextMoves.size() == 0) {
+	if (!exploded) {
 		// loop through from source vials
 		for (int source_it = 0; source_it < position.size(); source_it++) {
 			// loop through destination vials
@@ -102,6 +138,8 @@ Move* Move::explode () {
 				// skip movements to self
 				if (
 					source_it != destination_it && // skip movements to self
+					(position[source_it].size() > 1 || position[destination_it].size() > 0) && // skip movements from single to empty vial
+					// TODO the above really should be comparing whether movement from source to dest vial creates an identical result vial
 					position[source_it].size() > 0 && ( // skip movements from nothing
 						position[destination_it].size() == 0 || ( // allow movement to empty vial
 							position[destination_it].size() < 4 && // skip movements to full
@@ -109,20 +147,15 @@ Move* Move::explode () {
 				))) {
 					execute(source_it, destination_it);
 
-					for (int i = 0; i < nextMoves.size(); i++) {
-						std::cout << nextMoves[i]->compare(position) << " - compared " << std::endl;
-					}
+					if (!scanForMatches()) {
+						Move* nextMove = new Move(this);
 
-					Move* nextMove = new Move(this);
+						if (nextMove->score == 0) {
+							revert(source_it, destination_it);
+							return nextMove;
+						}
+					}
 					revert(source_it, destination_it);
-
-					// TODO remove
-					std::cout << "ADDED A NEW MOVE" << std::endl;
-					nextMove->print();
-
-					if (nextMove->score == 0) {
-						return nextMove;
-					}
 				}
 			}
 		}
@@ -142,15 +175,22 @@ void Move::print () {
 	if (score == 0) {
 		std::cout << "*** WINNER ***" << std::endl;
 	}
-	std::cout << "MOVE: " << step << std::endl;
 	std::cout << "KEY: " << key << std::endl;
 	if (step != 0) {
 		std::cout << "LAST MOVE KEY: " << lastMove->key << std::endl;
 	}
+	std::cout << "MOVE: " << step << std::endl;
 	std::cout << "SCORE: " << score << std::endl;
 	std::cout << "EXPLODED: " << exploded << std::endl;
 	std::cout << "POSITION: " << std::endl;
 	displayBoard(position);
 	std::cout << std::endl;
 	std::cout << std::endl;
+}
+
+void Move::printExplosion () {
+	print();
+	for (int i = 0; i < nextMoves.size(); i++) {
+		nextMoves[i]->printExplosion();
+	}
 }

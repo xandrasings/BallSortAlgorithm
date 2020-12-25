@@ -19,8 +19,8 @@ public:
 		Move (Move*);
 		~Move();
 
-		bool compare(Move*);
 		bool compare(std::vector < std::vector < Color > >&);
+		bool scanForMatches();
 
 		void execute(int, int);
 		void revert(int, int);
@@ -29,6 +29,7 @@ public:
 		Move* explode ();
 
 		void print ();
+		void printExplosion ();
 };
 
 #endif
