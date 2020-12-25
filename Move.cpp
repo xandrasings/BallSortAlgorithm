@@ -132,7 +132,7 @@ void Move::setScore () {
 	}
 
 	// add empties scoring component
-	score += (4 * position.size() - volume) - 4 * empties; // add single point for extra vials used
+	score += (position.size() - volume / 4) - empties; // add single point for extra vials used
 }
 
 void Move::execute (int source, int destination) {
