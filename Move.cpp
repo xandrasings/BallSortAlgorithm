@@ -97,14 +97,16 @@ void Move::setScore () {
 	// local vars
 	int volume = 0;
 	int empties = 0;
-
+	int multiplier;
 
 	// add consecutives scoring component
 	for(std::vector< std::vector < Color > >::const_iterator vial_it = position.begin(); vial_it != position.end(); ++vial_it) {
+		multiplier = 0;
 		for(std::vector < Color >::const_iterator ball_it = vial_it->begin(); ball_it != vial_it->end(); ++ball_it) { // this will skip empty vectors
-			if (ball_it != vial_it->begin() && *ball_it != *std::prev(ball_it)) { // this will skip first element logic
-				score += 1; // add a point for each nonconsecutive color streak
+			if (ball_it != vial_it->begin() && *ball_it != *std::prev(ball_it)) { // new ball color found
+				multiplier += 1; // higher penalty for each level
 			}
+			score += multiplier;
 		}
 
 		// calculate values for empties scoring component
@@ -115,7 +117,7 @@ void Move::setScore () {
 	}
 
 	// add empties scoring component
-	score += ((4 * position.size() - volume) / 4) - empties; // add a point for extra vials used
+	score += (4 * position.size() - volume) - 4 * empties; // add four points for extra vials used
 }
 
 void Move::execute (int source, int destination) {
