@@ -27,10 +27,41 @@ int main() {
 	// };
 
 	// LEVEL 4
+	// std::vector < std::vector < Color > > position {
+	// 	{BLUE, RED, ORANGE, ORANGE},
+	// 	{BLUE, RED, BLUE, RED},
+	// 	{ORANGE, BLUE, RED, ORANGE},
+	// 	{},
+	// 	{}
+	// };
+
+	// // LEVEL 10
+	// std::vector < std::vector < Color > > position {
+	// 	{PINK, BLUE, LIME, BLUE},
+	// 	{ORANGE, GRAY, PINK, RED},
+	// 	{BLUE, CYAN, CYAN, LIME},
+	// 	{PINK, ORANGE, ORANGE, LIME},
+	// 	{GRAY, GRAY, LIME, RED},
+	// 	{BLUE, RED, CYAN, CYAN},
+	// 	{RED, PINK, ORANGE, GRAY},
+	// 	{},
+	// 	{}
+	// };
+
+	// LEVEL 1341
 	std::vector < std::vector < Color > > position {
-		{BLUE, RED, ORANGE, ORANGE},
-		{BLUE, RED, BLUE, RED},
-		{ORANGE, BLUE, RED, ORANGE},
+		{CYAN, LIME, FOREST, GRAY},
+		{ORANGE, FOREST, YELLOW, BLUE},
+		{LIME, BLUE, PINK, YELLOW},
+		{ORANGE, FOREST, GRAY, RED},
+		{PINK, GREEN, BROWN, BLUE},
+		{ORANGE, RED, BROWN, CYAN},
+		{BROWN, LIME, RED, ORANGE},
+		{BLUE, GRAY, FOREST, PURPLE},
+		{PURPLE, CYAN, LIME, LIME},
+		{PURPLE, PINK, LIME, CYAN},
+		{RED, YELLOW, PINK, PURPLE},
+		{BROWN, YELLOW, LIME, GRAY},
 		{},
 		{}
 	};
