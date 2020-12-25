@@ -37,6 +37,7 @@ Move::~Move() {
     return;
 }
 
+// TODO add logic for when more efficient path found
 bool Move::compare (std::vector < std::vector < Color > >& newPosition) {
 	std::vector<int> indicesToCompare(newPosition.size()) ;
 	std::iota (std::begin(indicesToCompare), std::end(indicesToCompare), 0);
@@ -139,8 +140,8 @@ Move* Move::explode () {
 				// skip movements to self
 				if (
 					source_it != destination_it && // skip movements to self
+					// TODO the below really should be comparing whether movement from source to dest vial creates an identical result vial
 					(position[source_it].size() > 1 || position[destination_it].size() > 0) && // skip movements from single to empty vial
-					// TODO the above really should be comparing whether movement from source to dest vial creates an identical result vial
 					position[source_it].size() > 0 && ( // skip movements from nothing
 						position[destination_it].size() == 0 || ( // allow movement to empty vial
 							position[destination_it].size() < 4 && // skip movements to full
