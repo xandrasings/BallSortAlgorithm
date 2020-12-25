@@ -17,11 +17,20 @@ int main() {
 	// 	{}
 	// };
 
-	// LEVEL 3
+	// // LEVEL 3
+	// std::vector < std::vector < Color > > position {
+	// 	{BLUE, ORANGE, RED, BLUE},
+	// 	{ORANGE, ORANGE, RED, BLUE},
+	// 	{RED, BLUE, ORANGE, RED},
+	// 	{},
+	// 	{}
+	// };
+
+	// LEVEL 4
 	std::vector < std::vector < Color > > position {
-		{BLUE, ORANGE, RED, BLUE},
-		{ORANGE, ORANGE, RED, BLUE},
-		{RED, BLUE, ORANGE, RED},
+		{BLUE, RED, ORANGE, ORANGE},
+		{BLUE, RED, BLUE, RED},
+		{ORANGE, BLUE, RED, ORANGE},
 		{},
 		{}
 	};
