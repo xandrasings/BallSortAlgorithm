@@ -193,6 +193,7 @@ Move* Move::explode (int minimumScore) {
 		exploded = true;
 	}
 
+	// TODO change from DFS to BFS to find lowest number of moves winner more consistently
 	for (int i = 0; i < nextMoves.size(); i++) {
 		Move* winningMove = nextMoves[i]->explode(minimumScore);
 		if (winningMove != NULL) {
