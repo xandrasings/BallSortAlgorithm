@@ -1,5 +1,6 @@
 #include "Move.h"
 #include "Display.h"
+#include <algorithm>
 #include <iostream>
 #include <numeric>
 #include <queue>
@@ -91,6 +92,20 @@ bool Move::scanForMatches () {
 	return false;
 }
 
+int Move::scanForMinimum () {
+	int minimum = position.size() * 6;
+
+	if (!exploded) {
+		minimum = std::min(minimum, score);
+	}
+
+	for (int i = 0; i < nextMoves.size(); i++) {
+		minimum = std::min(minimum, nextMoves[i]->scanForMinimum());
+	}
+
+	return minimum;
+}
+
 void Move::setScore () {
 	score = 0;
 
@@ -117,7 +132,7 @@ void Move::setScore () {
 	}
 
 	// add empties scoring component
-	score += (4 * position.size() - volume) - 4 * empties; // add four points for extra vials used
+	score += (4 * position.size() - volume) - 4 * empties; // add single point for extra vials used
 }
 
 void Move::execute (int source, int destination) {
@@ -131,8 +146,22 @@ void Move::revert (int source, int destination) {
 }
 
 Move* Move::explode () {
-	// explode this move if it hasn't been done yet
-	if (!exploded) {
+	if (key > 1000) { // TODO evaluate program limits
+		return NULL;
+	}
+
+	Move* winningPosition = explode(scanForMinimum());
+
+	if (winningPosition == NULL) {
+		return explode();
+	} else {
+		return winningPosition;
+	}
+}
+
+Move* Move::explode (int minimumScore) {
+	// explode this move if it hasn't been done yet and minimum score is a match
+	if (!exploded && score == minimumScore) {
 		// loop through from source vials
 		for (int source_it = 0; source_it < position.size(); source_it++) {
 			// loop through destination vials
@@ -161,16 +190,17 @@ Move* Move::explode () {
 				}
 			}
 		}
-	} else { // otherwise check the next level of moves
-		for (int i = 0; i < nextMoves.size(); i++) {
-			Move* winningMove = nextMoves[i]->explode();
-			if (winningMove != NULL) {
-				return winningMove;
-			}
+		exploded = true;
+	}
+
+	for (int i = 0; i < nextMoves.size(); i++) {
+		Move* winningMove = nextMoves[i]->explode(minimumScore);
+		if (winningMove != NULL) {
+			return winningMove;
 		}
 	}
-	exploded = true;
-	return NULL; // if no winner found on this depth, return NULL
+
+	return NULL; // if no winner found, return NULL
 }
 
 void Move::populatePath(std::stack<Move*>& moves) {

@@ -22,12 +22,14 @@ public:
 
 		bool compare(std::vector < std::vector < Color > >&);
 		bool scanForMatches();
+		int scanForMinimum();
 
 		void execute(int, int);
 		void revert(int, int);
 		void setScore();
 
 		Move* explode ();
+		Move* explode (int);
 		void populatePath(std::stack<Move*>&);
 
 		// void print ();

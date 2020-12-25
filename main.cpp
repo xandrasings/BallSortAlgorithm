@@ -36,27 +36,8 @@ int main() {
 	};
 
 	Move startPosition = Move(position);
-	Move* winningPosition = NULL;
-
-	for (int timer = 0; timer < 12; timer++) {
-		winningPosition = startPosition.explode();
-
-		if (winningPosition != NULL) {
-			break;
-		}
-	};
-
-	startPosition.printExplosion();
-
-	if (winningPosition != NULL) {
-		std::cout << "winning position: " << std::endl;
-		winningPosition->print();
-	} else {
-		std::cout << "winning position not found!!!" << std::endl;
-	}
-
-	std::cout << "************" << std::endl;
-
+	Move* winningPosition = startPosition.explode();
+	// startPosition.printExplosion();
 	winningPosition->printPath();
 
 	return 0;
