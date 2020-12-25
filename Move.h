@@ -1,6 +1,7 @@
 #ifndef __MOVE_H__
 #define __MOVE_H__
 #include "Color.h"
+#include <stack>
 #include <vector>
 
 class Move {
@@ -27,8 +28,12 @@ public:
 		void setScore();
 
 		Move* explode ();
+		void populatePath(std::stack<Move*>&);
 
-		void print ();
+		// void print ();
+		void print (Move* = NULL);
+		void print (std::stack<Move*>&);
+		void printPath ();
 		void printExplosion ();
 };
 

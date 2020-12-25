@@ -55,5 +55,9 @@ int main() {
 		std::cout << "winning position not found!!!" << std::endl;
 	}
 
+	std::cout << "************" << std::endl;
+
+	winningPosition->printPath();
+
 	return 0;
 }

@@ -3,7 +3,6 @@
 #include <iostream>
 #include <numeric>
 #include <queue>
-#include <vector>
 
 int currentKey;
 
@@ -173,7 +172,15 @@ Move* Move::explode () {
 	return NULL; // if no winner found on this depth, return NULL
 }
 
-void Move::print () {
+void Move::populatePath(std::stack<Move*>& moves) {
+	std::cout << "populatePath: " << std::endl;
+	moves.push(this);
+	if (lastMove != NULL) {
+		lastMove->populatePath(moves);
+	}
+}
+
+void Move::print (Move* nextMove) {
 	if (score == 0) {
 		std::cout << "*** WINNER ***" << std::endl;
 	}
@@ -188,6 +195,27 @@ void Move::print () {
 	displayBoard(position);
 	std::cout << std::endl;
 	std::cout << std::endl;
+}
+
+void Move::print (std::stack<Move*>& moves) {
+	Move* thisMove = moves.top();
+	moves.pop();
+
+	if (moves.empty()) {
+		thisMove->print();
+	} else {
+		thisMove->print(moves.top());
+	}
+}
+
+void Move::printPath () {
+	std::stack<Move*> moves;
+
+	populatePath(moves);
+
+	while (!moves.empty()) {
+		print(moves);
+	}
 }
 
 void Move::printExplosion () {
